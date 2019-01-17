@@ -1,0 +1,68 @@
+﻿@model WebTender.Models.TenderModel
+
+@{
+    ViewBag.Title = "Details";
+}
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Details Tender № @Model.NumberOfTender </h4>
+            </div>
+        </div>
+
+<div class="row">
+    <div class="col-md-12 b">
+        <div class="row">
+            <div class="col-md-7 b">
+                <label for="n">@Html.DisplayNameFor(model => model.NumberOfTender)</label>
+                <span id="n"> @Html.DisplayFor(model => model.NumberOfTender)</span>
+                <br />
+                <label for="s">@Html.DisplayNameFor(model => model.SubjectOfTender)</label>
+                <span id="s"> @Html.DisplayFor(model => model.SubjectOfTender)</span>
+                <br />
+                <label for="d">@Html.DisplayNameFor(model => model.Discription)</label>
+                <span id="d"> @Html.DisplayFor(model => model.Discription)</span>
+                <br />
+                <label for="t">@Html.DisplayNameFor(model => model.TenderType)</label>
+                <span id="t"> @Html.DisplayFor(model => model.TenderType)</span>
+                <br />
+                <label for="cat">@Html.DisplayNameFor(model => model.Category)</label>
+                <span id="cat"> @Html.DisplayFor(model => model.Category)</span>
+            </div>
+
+            <div class="col-md-4 b">
+                <label for="b">@Html.DisplayNameFor(model => model.Budget)</label>
+                <span id="b">@Html.DisplayFor(model => model.Budget)</span>
+                <br />
+                <label for="c">@Html.DisplayNameFor(model => model.Currency)</label>
+                <span id="c">@Html.DisplayFor(model => model.Currency)</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 b">
+
+                <label for="o">@Html.DisplayNameFor(model => model.Organizer)</label>
+                <span id="o">@Html.DisplayFor(model => model.Organizer)</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 b">
+                <label for="p">@Html.DisplayNameFor(model => model.PublicationDate)</label>
+                <span id="p">@Html.DisplayFor(model => model.PublicationDate)</span>
+
+                <br />
+                <label for="st">@Html.DisplayNameFor(model => model.StartDate)</label>
+                <span id="st">@Html.DisplayFor(model => model.StartDate)</span>
+                <br />
+                <label for="ft">@Html.DisplayNameFor(model => model.FinishDate)</label>
+                <span id="ft">@Html.DisplayFor(model => model.FinishDate)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>

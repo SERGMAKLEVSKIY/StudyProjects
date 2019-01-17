@@ -1,0 +1,2 @@
+$(".detail").click(function () {
+});

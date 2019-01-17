@@ -1,0 +1,162 @@
+﻿@model WebTender.Models.TenderModelWithFilter
+
+@using WebTender.Helper
+
+
+@{
+    ViewBag.Title = "Index";
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<h4>List of Tenders</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Index", "Tender", FormMethod.Post))
+        {
+           @Html.HiddenFor(model => model.PageNumber)
+
+            <div class="row">
+                <div class="col-md-3 b bor">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Filters</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Organizer, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <br />
+                                    @Html.EnumDropDownListFor(model => model.Organizer, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Organizer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TenderType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <br />
+                                    @Html.EnumDropDownListFor(model => model.TenderType, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TenderType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br /><br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <br />
+                                    @Html.TextBoxFor(model => model.StartDate, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FinishDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.FinishDate, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-1">
+                                    <br />
+                                    <div class="btn-group" role="group">
+                                        <input class="btn btn-primary btn-sm" type="submit" value="Filter" id="page">
+                                        <input class="btn btn-default btn-sm" type="reset" value="Reset">
+                                        @Html.ActionLink("ResetAllFilters", "Index", "Tender", null, new { @class = "btn btn-danger btn-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="row b">
+
+                        <p>
+                            @Html.TextBoxFor(model => model.FilterText, new { placeholder = "Поиск по фразе..." })
+                            <input type="submit" value="Найти" id="page">
+                        </p>
+
+                        <p> Sort by: 
+                            @Html.DropDownListFor(model => model.SortOrder, new List<SelectListItem> {
+                           new SelectListItem { Value = "Category", Text="Category"},
+                           new SelectListItem { Value = "Budget", Text="Budget"},
+                           new SelectListItem { Value = "PublicationDate", Text="Date"}
+
+                       }, htmlAttributes: new { @class = "form-control" })
+                        </p>
+                    </div>
+
+
+                    @foreach (var item in Model.Tenders)
+                    {
+                        <div class="row b">
+                            <div class="col-md-4">
+
+                                <label for="n">@Html.DisplayNameFor(model => item.NumberOfTender)</label>
+                                <span id="n"> @Html.DisplayFor(modelItem => item.NumberOfTender)</span>
+                                <br />
+                                <label for="s">@Html.ActionLink(item.SubjectOfTender, "Details", new { id = item.Id })</label>
+                                <span id="s"> @Html.DisplayFor(modelItem => item.SubjectOfTender)</span>
+                                <br />
+                                <label for="o">@Html.DisplayNameFor(model => item.Organizer)</label>
+                                <span id="o">@Html.DisplayFor(modelItem => item.Organizer)</span>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label for="b">@Html.DisplayNameFor(model => item.Budget)</label>
+                                <span id="b">@Html.DisplayFor(modelItem => item.Budget)</span>
+                                <br />
+                                <label for="c">@Html.DisplayNameFor(model => item.Currency)</label>
+                                <span id="c">@Html.DisplayFor(modelItem => item.Currency)</span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="st">@Html.DisplayNameFor(model => item.PublicationDate)</label>
+                                <span id="st">@Html.DisplayFor(modelItem => item.PublicationDate)</span>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div  class="col-md-4">
+            <div id="paging" class="btn-group">
+                @Html.PageLinks(Model.PageNumber, x => Url.Action("Index", new { page = x }), Model.PageInfo)
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section scripts {
+    <script>
+        $("#paging a").click(function (e) {
+            console.log(this);
+            $("#PageNumber").val(this.innerHTML);
+            $("form").submit();
+            return false;
+        });
+
+        $("#SortOrder").change(function (e) {
+            $("form").submit();
+            //return false;
+        });
+
+         $("#page").click(function (e) {
+                $("#PageNumber").val(1);
+                $("form").submit();
+                return false;
+            });   
+    </script>
+}
+

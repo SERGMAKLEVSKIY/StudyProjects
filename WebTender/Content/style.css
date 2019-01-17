@@ -1,0 +1,17 @@
+﻿h4 {
+    color:red;
+    text-align:center;
+}
+
+.b {
+    border:2px solid;
+    padding:10px;
+    margin:10px;
+}
+.bor{
+    margin-right:-10px;
+}
+
+#paging {
+    position:center,fixed;
+}
